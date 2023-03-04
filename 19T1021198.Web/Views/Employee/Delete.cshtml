@@ -1,0 +1,67 @@
+﻿@model _19T1021198.DomainModels.Employee
+@{
+    ViewBag.Title = "Xóa Nhân viên";
+}
+
+<div class="box box-danger">
+    <div class="box-body">
+        <form class="form-horizontal" action="~/Employee/Delete/@Model.EmployeeID" method="post">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Ảnh:</label>
+                <div class="col-sm-10">
+                    <img src="~/@Model.Photo" class="media-object" style="width:60px">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Họ đệm:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static">@Model.FirstName</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Tên:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static">@Model.LastName</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Ngày sinh:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static">@Model.BirthDate</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Ghi chú:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static">@Model.Notes</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Email:</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static">@Model.Email</p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="glyphicon glyphicon-floppy-disk"></i>
+                        Xóa dữ liệu
+                    </button>
+                    <a href="~/Employee" class="btn btn-warning">
+                        Quay lại
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+

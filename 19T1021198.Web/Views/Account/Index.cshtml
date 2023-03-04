@@ -1,0 +1,99 @@
+﻿@model _19T1021198.DomainModels.UserAccount
+@{
+    ViewBag.Title = "Thông Tin tài khoản";
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <form class="form-horizontal" action="~/Account/Save" method="post">
+            @{
+                var userAccount = Converter.CookieToUserAccount(User.Identity.Name);
+            }
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => userAccount.UserID)
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <label class="control-label col-sm-7"></label>
+                    <input class="form-control" type="hidden" name="Photo" value="@userAccount.Photo" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Tên Tài khoản:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="UserName" value="@userAccount.UserName" readonly />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Họ tên:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="FullName" value="@userAccount.FullName" readonly />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Email:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="email" name="Email" value="@userAccount.Email" readonly />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Vai trò:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="RoleNames" value="@userAccount.RoleNames" readonly />
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Nhập Mật khẩu cũ:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="password" name="Password" />
+                    @*@Html.TextBoxFor(m => m.ShipperName, new { @class = "form-control", @autofocus = "autofocus", @type="password" })*@
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:#f00" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Mật khẩu mới:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="password" name="newPassword" />
+                    @*@Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })*@
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:#f00" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Nhập lại Mật khẩu mới:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="password" name="confirmNewPassword" />
+                    @*@Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })*@
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:#f00" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    @Html.ValidationSummary("", new { @style = "color:#f00" })
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-floppy-disk"></i>
+                        Lưu Thông tin
+                    </button>
+                    <a href="~/" class="btn btn-warning">
+                        Quay lại
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
