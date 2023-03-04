@@ -208,7 +208,7 @@ namespace _19T1021198.Web.Controllers
         [HttpPost]
         public ActionResult SavePhoto(ProductPhoto data, HttpPostedFileBase uploadPhoto, string isHidden)
         {
-            data.Photo = data.Photo ?? "https://www.w3schools.com/bootstrap4/img_avatar1.png";
+            data.Description = data.Description ?? "";
             data.IsHidden = false;
             if (isHidden == "on")
                 data.IsHidden = true;
@@ -220,6 +220,10 @@ namespace _19T1021198.Web.Controllers
                 string filePath = System.IO.Path.Combine(path, fileName);
                 uploadPhoto.SaveAs(filePath);
                 data.Photo = $"Images/Products/Photos/{fileName}";
+            }
+            else
+            {
+                data.Photo = "Images/Products/Photos/default.png";
             }
 
             //
@@ -283,13 +287,11 @@ namespace _19T1021198.Web.Controllers
                 ModelState.AddModelError(nameof(data.AttributeName), "Tên thuộc tính không được để trống!");
             if (string.IsNullOrWhiteSpace(data.AttributeValue))
                 ModelState.AddModelError(nameof(data.AttributeValue), "Giá trị Thuộc tính không được để trống!");
-            if (data.DisplayOrder == 0)
-                data.DisplayOrder = 1;
 
             if (ModelState.IsValid == false)    // Kiểm tra dữ liệu đầu vào có hợp lệ hay không
             {
                 ViewBag.Title = data.AttributeID == 0 ? "Bổ sung Thuộc tính" : "Thay đổi Thuộc tính";
-                return View($"Edit/{data.ProductID}/{data.AttributeID}", data);
+                return View("Attribute", data);
             }
 
             //
