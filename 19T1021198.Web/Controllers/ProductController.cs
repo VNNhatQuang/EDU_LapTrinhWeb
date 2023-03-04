@@ -239,22 +239,66 @@ namespace _19T1021198.Web.Controllers
         /// <param name="attributeID"></param>
         /// <returns></returns>
         [Route("attribute/{method?}/{productID}/{attributeID?}")]
-        public ActionResult Attribute(string method = "add", int productID = 0, long attributeID = 0)
+        public ActionResult Attribute(string method = "add", int productID = 0, int attributeID = 0)
         {
             switch (method)
             {
                 case "add":
+                    var data = new ProductAttribute()
+                    {
+                        AttributeID = 0,
+                        ProductID = productID
+                    };
                     ViewBag.Title = "Bổ sung thuộc tính";
-                    return View();
+                    return View(data);
                 case "edit":
+                    if (attributeID <= 0)
+                        return RedirectToAction("Index");
+                    data = ProductDataService.GetAttribute(attributeID);
+                    if (data == null)
+                        return RedirectToAction("Index");
                     ViewBag.Title = "Thay đổi thuộc tính";
-                    return View();
+                    return View(data);
                 case "delete":
-                    //ProductDataService.DeleteAttribute(attributeID);
+                    ProductDataService.DeleteAttribute(attributeID);
                     return RedirectToAction($"Edit/{productID}"); //return RedirectToAction("Edit", new { productID = productID });
                 default:
                     return RedirectToAction("Index");
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="uploadPhoto"></param>
+        /// <param name="isHidden"></param>
+        /// <returns></returns>
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult SaveAttribute(ProductAttribute data)
+        {
+            //// check
+            if (string.IsNullOrWhiteSpace(data.AttributeName))
+                ModelState.AddModelError(nameof(data.AttributeName), "Tên thuộc tính không được để trống!");
+            if (string.IsNullOrWhiteSpace(data.AttributeValue))
+                ModelState.AddModelError(nameof(data.AttributeValue), "Giá trị Thuộc tính không được để trống!");
+            if (data.DisplayOrder == 0)
+                data.DisplayOrder = 1;
+
+            if (ModelState.IsValid == false)    // Kiểm tra dữ liệu đầu vào có hợp lệ hay không
+            {
+                ViewBag.Title = data.AttributeID == 0 ? "Bổ sung Thuộc tính" : "Thay đổi Thuộc tính";
+                return View($"Edit/{data.ProductID}/{data.AttributeID}", data);
+            }
+
+            //
+            if (data.AttributeID == 0)
+                ProductDataService.AddAttribute(data);
+            else
+                ProductDataService.UpdateAttribute(data);
+
+            return RedirectToAction($"Edit/{data.ProductID}");
         }
     }
 }

@@ -424,14 +424,14 @@ namespace _19T1021198.DataLayers.SQLServer
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"UPDATE ProductAttributes
-                                    SET ProductID = @ProductID, AttributeName = @AttributeName, AttributeValue = @AttributeValue, DisplayOrder = @DisplayOrder
+                                    SET AttributeName = @AttributeName, AttributeValue = @AttributeValue, DisplayOrder = @DisplayOrder
                                     WHERE AttributeID = @AttributeID";
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = cn;
-                cmd.Parameters.AddWithValue("@ProductID", data.ProductID);
                 cmd.Parameters.AddWithValue("@AttributeName", data.AttributeName);
                 cmd.Parameters.AddWithValue("@AttributeValue", data.AttributeValue);
                 cmd.Parameters.AddWithValue("@DisplayOrder", data.DisplayOrder);
+                cmd.Parameters.AddWithValue("@AttributeID", data.AttributeID);
 
                 result = cmd.ExecuteNonQuery() > 0;
 
