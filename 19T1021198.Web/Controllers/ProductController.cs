@@ -23,11 +23,11 @@ namespace _19T1021198.Web.Controllers
         private const string PRODUCT_SEARCH = "ProductCondition";
         public ActionResult Index()
         {
-            Models.PaginationSearchInput condition = Session[PRODUCT_SEARCH] as Models.PaginationSearchInput;
+            Models.ProductSearchInput condition = Session[PRODUCT_SEARCH] as Models.ProductSearchInput;
 
             if (condition == null)
             {
-                condition = new Models.PaginationSearchInput()
+                condition = new Models.ProductSearchInput()
                 {
                     Page = 1,
                     PageSize = PAGE_SIZE,
@@ -38,24 +38,21 @@ namespace _19T1021198.Web.Controllers
             return View(condition);
         }
 
-        public ActionResult Search(Models.PaginationSearchInput condition)  // (int Page, int PageSize, string SearchValue)
+        public ActionResult Search(Models.ProductSearchInput condition)
         {
-            int rowCount = 0;
-            var data = CommonDataService.ListOfProducts(condition.Page,
-                                                        condition.PageSize,
-                                                        condition.SearchValue,
-                                                        out rowCount);
-            Models.ProductSearchOutput result = new Models.ProductSearchOutput()
+            var data = ProductDataService.ListProducts(condition.Page, condition.PageSize, condition.SearchValue, condition.CategoryID, condition.SupplierID, out var rowCount);
+            var result = new Models.ProductSearchOutput()
             {
                 Page = condition.Page,
                 PageSize = condition.PageSize,
                 SearchValue = condition.SearchValue,
+                CategoryID = condition.CategoryID,
+                SupplierID = condition.SupplierID,
                 RowCount = rowCount,
                 Data = data,
+                
             };
-
             Session[PRODUCT_SEARCH] = condition;
-
             return View(result);
         }
 

@@ -140,6 +140,7 @@
     <Compile Include="Models\EmployeeSearchOutput.cs" />
     <Compile Include="Models\PaginationSearchInput.cs" />
     <Compile Include="Models\PaginationSearchOutput.cs" />
+    <Compile Include="Models\ProductSearchInput.cs" />
     <Compile Include="Models\ProductSearchOutput.cs" />
     <Compile Include="Models\ShipperSearchOutput.cs" />
     <Compile Include="Models\SupplierSearchOutput.cs" />

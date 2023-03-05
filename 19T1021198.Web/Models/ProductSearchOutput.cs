@@ -12,5 +12,13 @@ namespace _19T1021198.Web.Models
     public class ProductSearchOutput : PaginationSearchOutput
     {
         public List<Product> Data { get; set; }
+
+        public int CategoryID { get; set; }
+
+        public int SupplierID { get; set; }
+
+        //public int From => (Page - 1) * PageSize + 1;
+
+        //public int To => (Page - 1) * PageSize + Data.Count;
     }
 }

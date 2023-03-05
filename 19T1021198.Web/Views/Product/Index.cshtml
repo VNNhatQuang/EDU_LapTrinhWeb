@@ -1,5 +1,4 @@
-﻿@using _19T1021198.BusinessLayers
-@model _19T1021198.Web.Models.PaginationSearchInput
+﻿@model _19T1021198.Web.Models.ProductSearchInput
 @{
     ViewBag.Title = "Mặt hàng";
 }
@@ -14,26 +13,11 @@
 
             <div class="row">
                 <div class="col-sm-3">
-                    <select class="form-control" name="category">
-                        <option>-- Loại hàng --</option>
-                        @foreach (var i in CommonDataService.ListOfCategories())
-                        {
-                            <option value="@i.CategoryID">@i.CategoryName</option>
-                        }
-                        </select>
-                        @*@Html.DropDownListFor(m => "CategoryName", SelectListHelper.Categories(), new { @class = "form-control" })*@
-
-                    </div>
-                    <div class="col-sm-3">
-                        <select class="form-control" name="supplier">
-                            <option>-- Nhà cung cấp --</option>
-                            @foreach (var i in CommonDataService.ListOfSuppliers())
-                            {
-                                <option value="@i.SupplierID">@i.SupplierName</option>
-                            }
-                        </select>
-                        @*@Html.DropDownListFor(m => "SupplierName", SelectListHelper.Suppliers(), new { @class = "form-control" })*@
-                    </div>
+                    @Html.DropDownListFor(m => m.CategoryID, SelectListHelper.Categories(), new { @class = "form-control", onchange = "doSearch(1)" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownListFor(m => m.SupplierID, SelectListHelper.Suppliers(), new { @class = "form-control", onchange = "doSearch(1)" })
+                </div>
                     <div class="col-sm-6 input-group">
                         <input type="text" name="searchValue"
                                class="form-control"
