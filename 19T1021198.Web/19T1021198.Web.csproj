@@ -127,7 +127,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OderController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ShipperController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
@@ -138,6 +138,8 @@
     <Compile Include="Models\CategorySearchOutput.cs" />
     <Compile Include="Models\CustomerSearchOutput.cs" />
     <Compile Include="Models\EmployeeSearchOutput.cs" />
+    <Compile Include="Models\OrderSearchInput.cs" />
+    <Compile Include="Models\OrderSearchOutput.cs" />
     <Compile Include="Models\PaginationSearchInput.cs" />
     <Compile Include="Models\PaginationSearchOutput.cs" />
     <Compile Include="Models\ProductSearchInput.cs" />
@@ -6510,9 +6512,9 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
-    <Content Include="Views\Oder\Create.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
-    <Content Include="Views\Oder\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Supplier\Edit.cshtml" />
     <Content Include="Views\Supplier\Delete.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
@@ -6536,6 +6538,10 @@
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Photo.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Order\EditDetail.cshtml" />
+    <Content Include="Views\Order\SearchProducts.cshtml" />
+    <Content Include="Views\Order\Shipping.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
