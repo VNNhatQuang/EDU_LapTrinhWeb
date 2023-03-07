@@ -14,7 +14,7 @@ namespace _19T1021198.Web.Controllers
     {
         private const string SHOPPING_CART = "ShoppingCart";
         private const string ERROR_MESSAGE = "ErrorMessage";
-        private const int PAGE_SIZE = 4;
+        private const int PAGE_SIZE = 5;
         private const string ORDER_SEARCH = "OrderCondition";
 
         /// <summary>
@@ -23,9 +23,19 @@ namespace _19T1021198.Web.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            //TODO: Code chức năng tìm kiếm, phân trang cho đơn hàng
+            Models.OrderSearchInput condition = Session[ORDER_SEARCH] as Models.OrderSearchInput;
 
-            return View();
+            if (condition == null)
+            {
+                condition = new Models.OrderSearchInput()
+                {
+                    Page = 1,
+                    PageSize = PAGE_SIZE,
+                    SearchValue = "",
+                };
+            }
+
+            return View(condition);
         }
 
         public ActionResult Search(Models.OrderSearchInput condition)

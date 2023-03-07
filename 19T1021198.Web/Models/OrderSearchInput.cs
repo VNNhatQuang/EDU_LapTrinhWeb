@@ -7,6 +7,6 @@ namespace _19T1021198.Web.Models
 {
     public class OrderSearchInput : PaginationSearchInput
     {
-        public int Status { get; set }
+        public int Status { get; set; }
     }
 }
