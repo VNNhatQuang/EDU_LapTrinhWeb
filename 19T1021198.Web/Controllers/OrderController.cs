@@ -62,9 +62,18 @@ namespace _19T1021198.Web.Controllers
         /// <returns></returns>
         public ActionResult Details(int id = 0)
         {
-            //TODO: Code chức năng lấy và hiển thị thông tin của đơn hàng và chi tiết của đơn hàng
+            if (id <= 0)
+                return RedirectToAction("Index");
 
-            return View();
+            var data = OrderService.GetOrder(id);
+            if (data == null)
+                return RedirectToAction("Index");
+
+            ViewBag.ListOrderDetails = OrderService.ListOrderDetails(id);
+
+
+            ViewBag.Title = "Quản lý đơn hàng";
+            return View(data);
         }
         /// <summary>
         /// Giao diện Thay đổi thông tin chi tiết đơn hàng

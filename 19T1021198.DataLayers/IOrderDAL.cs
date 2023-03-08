@@ -87,6 +87,5 @@ namespace _19T1021198.DataLayers
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        IList<Status> ListStatus();
     }
 }
