@@ -80,9 +80,11 @@ namespace _19T1021198.BusinessLayers
             Order data = orderDB.Get(orderID);
             if (data == null)
                 return false;
-            
+
             //TODO: Kiểm tra xem việc hủy bỏ đơn hàng có hợp lý đối với trạng thái hiện tại của đơn hàng hay không?
             //... Your code here ...
+            if (data.Status != OrderStatus.INIT)
+                return false;
 
             data.Status = OrderStatus.CANCEL;
             data.FinishedTime = DateTime.Now;
@@ -101,6 +103,8 @@ namespace _19T1021198.BusinessLayers
 
             //TODO: Kiểm tra xem việc từ chối đơn hàng có hợp lý đối với trạng thái hiện tại của đơn hàng hay không?
             //... Your code here ...
+            if (data.Status != OrderStatus.INIT)
+                return false;
 
             data.Status = OrderStatus.REJECTED;
             data.FinishedTime = DateTime.Now;
@@ -119,8 +123,7 @@ namespace _19T1021198.BusinessLayers
 
             //TODO: Kiểm tra xem việc chấp nhận đơn hàng có hợp lý đối với trạng thái hiện tại của đơn hàng hay không?
             //... Your code here ...
-            var order = GetOrder(orderID);
-            if (order.Status != 1)
+            if (data.Status != OrderStatus.INIT)
                 return false;
 
             data.Status = OrderStatus.ACCEPTED;
@@ -141,13 +144,11 @@ namespace _19T1021198.BusinessLayers
 
             //TODO: Kiểm tra xem việc xác nhận đã chuyển hàng có hợp lý đối với trạng thái hiện tại của đơn hàng hay không?
             //... Your code here ...
-            var order = orderDB.Get(orderID);
-            if (order.Status == 2 || order.Status == 3)
+            if (data.Status == OrderStatus.ACCEPTED)
             {
                 data.Status = OrderStatus.SHIPPING;
                 data.ShipperID = shipperID;
                 data.ShippedTime = DateTime.Now;
-                data.FinishedTime = null;
                 return orderDB.Update(data);
             }
             return false;
@@ -165,10 +166,13 @@ namespace _19T1021198.BusinessLayers
 
             //TODO: Kiểm tra xem việc ghi nhận đơn hàng kết thúc thành công có hợp lý đối với trạng thái hiện tại của đơn hàng hay không?
             //... Your code here ...
-
-            data.Status = OrderStatus.FINISHED;
-            data.FinishedTime = DateTime.Now;
-            return orderDB.Update(data);
+            if (data.Status == OrderStatus.SHIPPING)
+            {
+                data.Status = OrderStatus.FINISHED;
+                data.FinishedTime = DateTime.Now;
+                return orderDB.Update(data);
+            }
+            return false;
         }
         /// <summary>
         /// Xóa đơn hàng và toàn bộ chi tiết của đơn hàng

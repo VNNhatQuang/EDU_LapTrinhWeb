@@ -171,6 +171,7 @@ namespace _19T1021198.Web.Controllers
         public ActionResult Finish(int id = 0)
         {
             //TODO: Code chức năng ghi nhận hoàn tất đơn hàng (nếu được phép)
+            OrderService.FinishOrder(id);
 
             return RedirectToAction($"Details/{id}");
         }
@@ -182,6 +183,7 @@ namespace _19T1021198.Web.Controllers
         public ActionResult Cancel(int id = 0)
         {
             //TODO: Code chức năng hủy đơn hàng (nếu được phép)
+            OrderService.CancelOrder(id);
 
             return RedirectToAction($"Details/{id}");
         }
@@ -193,6 +195,7 @@ namespace _19T1021198.Web.Controllers
         public ActionResult Reject(int id = 0)
         {
             //TODO: Code chức năng từ chối đơn hàng (nếu được phép)
+            OrderService.RejectOrder(id);
 
             return RedirectToAction($"Details/{id}");
         }
