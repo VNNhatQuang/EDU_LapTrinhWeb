@@ -1,11 +1,23 @@
-﻿
+﻿@using _19T1021198.DomainModels
 @{
     Layout = null;
 }
 
 <div class="modal-dialog">    
     <div class="modal-content">
+        @{
+            OrderDetail od = ViewBag.ProductOrderDetail;
+        }
+        
         <form action="~/Order/UpdateDetail" method="post" class="form-horizontal">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="OrderDetailID" value="@od.OrderDetailID" />
+            <input type="hidden" name="OrderID" value="@od.OrderID" />
+            <input type="hidden" name="ProductID" value="@od.ProductID" />
+            <input type="hidden" name="ProductName" value="@od.ProductName" />
+            <input type="hidden" name="Photo" value="@od.Photo" />
+            <input type="hidden" name="Unit" value="@od.Unit" />
+
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Cập nhật chi tiết đơn hàng</h4>
@@ -14,25 +26,25 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3">Tên mặt hàng:</label>
                     <div class="col-sm-9">
-                        <p class="form-control-static">Samsung Series 9 NP900X4C Premium Ultrabook</p>
+                        <p class="form-control-static">@od.ProductName</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-3">Đơn vị tính:</label>
                     <div class="col-sm-9">
-                        <p class="form-control-static">Cái</p>
+                        <p class="form-control-static">@od.Unit</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-3">Số lượng:</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" value="2" />
+                        <input name="Quantity" type="number" min="1" class="form-control" value="@od.Quantity" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-3">Giá bán:</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" value="18,700,000" />
+                        <input name="SalePrice" type="number" min="0" class="form-control" value="@Convert.ToInt32(od.SalePrice)" />
                     </div>
                 </div>
             </div>

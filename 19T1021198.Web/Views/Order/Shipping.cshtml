@@ -1,4 +1,5 @@
-﻿
+﻿@using _19T1021198.DomainModels
+@model int
 @{
     Layout = null;
 }
@@ -13,7 +14,8 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="control-label">Người giao hàng:</label>
-                    <select class="form-control">
+                    <input type="hidden" name="id" value="@Model.ToString()" />
+                    <select class="form-control" name="shipperID">
                         <option value="0">-- Chọn người giao hàng ---</option>
                         @foreach (var item in _19T1021198.BusinessLayers.CommonDataService.ListOfShippers())
                         {

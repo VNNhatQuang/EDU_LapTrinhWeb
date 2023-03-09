@@ -119,10 +119,13 @@ namespace _19T1021198.BusinessLayers
 
             //TODO: Kiểm tra xem việc chấp nhận đơn hàng có hợp lý đối với trạng thái hiện tại của đơn hàng hay không?
             //... Your code here ...
+            var order = GetOrder(orderID);
+            if (order.Status != 1)
+                return false;
 
             data.Status = OrderStatus.ACCEPTED;
             data.AcceptTime = DateTime.Now;
-            return orderDB.Update(data);            
+            return orderDB.Update(data);
         }
         /// <summary>
         /// Xác nhận đã chuyển hàng
@@ -138,11 +141,16 @@ namespace _19T1021198.BusinessLayers
 
             //TODO: Kiểm tra xem việc xác nhận đã chuyển hàng có hợp lý đối với trạng thái hiện tại của đơn hàng hay không?
             //... Your code here ...
-
-            data.Status = OrderStatus.SHIPPING;
-            data.ShipperID = shipperID;
-            data.ShippedTime = DateTime.Now;
-            return orderDB.Update(data);
+            var order = orderDB.Get(orderID);
+            if (order.Status == 2 || order.Status == 3)
+            {
+                data.Status = OrderStatus.SHIPPING;
+                data.ShipperID = shipperID;
+                data.ShippedTime = DateTime.Now;
+                data.FinishedTime = null;
+                return orderDB.Update(data);
+            }
+            return false;
         }
         /// <summary>
         /// Ghi nhận kết thúc quá trình xử lý đơn hàng thành công

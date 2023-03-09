@@ -71,7 +71,6 @@ namespace _19T1021198.Web.Controllers
 
             ViewBag.ListOrderDetails = OrderService.ListOrderDetails(id);
 
-
             ViewBag.Title = "Quản lý đơn hàng";
             return View(data);
         }
@@ -84,7 +83,13 @@ namespace _19T1021198.Web.Controllers
         [Route("EditDetail/{orderID}/{productID}")]
         public ActionResult EditDetail(int orderID = 0, int productID = 0)
         {
-            //TODO: Code chức năng để lấy chi tiết đơn hàng cần edit
+            if (orderID <= 0 || productID <= 0)
+                return RedirectToAction("Index");
+
+            var data = OrderService.GetOrderDetail(orderID, productID);
+            ViewBag.ProductOrderDetail = data;
+            if (data == null)
+                return RedirectToAction("Index");
 
             return View();
         }
@@ -96,7 +101,7 @@ namespace _19T1021198.Web.Controllers
         [HttpPost]
         public ActionResult UpdateDetail(OrderDetail data)
         {
-            //TODO: Code chức năng để cập nhật chi tiết đơn hàng
+            OrderService.SaveOrderDetail(data.OrderID, data.ProductID, data.Quantity, data.SalePrice);
 
             return RedirectToAction($"Details/{data.OrderID}");
         }
@@ -109,7 +114,10 @@ namespace _19T1021198.Web.Controllers
         [Route("DeleteDetail/{orderID}/{productID}")]
         public ActionResult DeleteDetail(int orderID = 0, int productID = 0)
         {
-            //TODO: Code chức năng xóa 1 chi tiết trong đơn hàng
+            if (orderID <= 0 || productID <= 0)
+                return RedirectToAction("Index");
+
+            OrderService.DeleteOrderDetail(orderID, productID);
 
             return RedirectToAction($"Details/{orderID}");
         }
@@ -120,7 +128,7 @@ namespace _19T1021198.Web.Controllers
         /// <returns></returns>
         public ActionResult Delete(int id = 0)
         {
-            //TODO: Code chức năng để xóa đơn hàng (nếu được phép xóa)
+            OrderService.DeleteOrder(id);
 
             return RedirectToAction("Index");
         }
@@ -132,6 +140,7 @@ namespace _19T1021198.Web.Controllers
         public ActionResult Accept(int id = 0)
         {
             //TODO: Code chức năng chấp nhận đơn hàng (nếu được phép)
+            OrderService.AcceptOrder(id);
 
             return RedirectToAction($"Details/{id}");
         }
@@ -140,12 +149,17 @@ namespace _19T1021198.Web.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// [Route("Shipping/{id}/{shipperID}")]
         public ActionResult Shipping(int id = 0, int shipperID = 0)
         {
             //TODO: Code chức năng chuyển đơn hàng sang trạng thái đang giao hàng (nếu được phép)
-
             if (Request.HttpMethod == "GET")
-                return View();
+                return View(id);
+
+            if(id <= 0 || shipperID <= 0)
+                return RedirectToAction("");
+
+            OrderService.ShipOrder(id, shipperID);
 
             return RedirectToAction($"Details/{id}");
         }
