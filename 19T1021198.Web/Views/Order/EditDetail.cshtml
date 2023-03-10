@@ -3,17 +3,17 @@
     Layout = null;
 }
 
-<div class="modal-dialog">    
+<div class="modal-dialog">
     <div class="modal-content">
         @{
             OrderDetail od = ViewBag.ProductOrderDetail;
         }
-        
+
         <form action="~/Order/UpdateDetail" method="post" class="form-horizontal">
             @Html.AntiForgeryToken()
             <input type="hidden" name="OrderDetailID" value="@od.OrderDetailID" />
             <input type="hidden" name="OrderID" value="@od.OrderID" />
-            <input type="hidden" name="ProductID" value="@od.ProductID" />
+            @*<input type="hidden" name="ProductID" value="@od.ProductID" />*@
             <input type="hidden" name="ProductName" value="@od.ProductName" />
             <input type="hidden" name="Photo" value="@od.Photo" />
             <input type="hidden" name="Unit" value="@od.Unit" />
@@ -26,7 +26,24 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3">Tên mặt hàng:</label>
                     <div class="col-sm-9">
-                        <p class="form-control-static">@od.ProductName</p>
+                        @*<p class="form-control-static">@od.ProductName</p>*@
+                        <select class="form-control" name="ProductID" onchange="doSearch(1)">
+                            @foreach (var i in _19T1021198.BusinessLayers.CommonDataService.ListOfProduct())
+                            {
+                                if (i.ProductName == od.ProductName)
+                                {
+                                    <option value="@i.ProductID" selected>
+                                        @i.ProductName
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@i.ProductID">
+                                        @i.ProductName
+                                    </option>
+                                }
+                            }
+                            <select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -60,3 +77,35 @@
     </div>
 </div>
 
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#formSearch").submit(function (e) {
+                e.preventDefault();
+                doSearch(1);
+                return;
+            });
+            doSearch(@Model.Page);
+        })
+        function doSearch(page) {
+            var url = $("#formSearch").prop("action");
+            var postData = $("#formSearch").serializeArray();
+            postData.push({ "name": "page", "value": page });
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: postData,
+                error: function () {
+                    alert("Your request is not valid!");
+                },
+                success: function (data) {
+                    $("#searchResult").html(data);
+                }
+            });
+
+            return;
+        }
+    </script>
+}

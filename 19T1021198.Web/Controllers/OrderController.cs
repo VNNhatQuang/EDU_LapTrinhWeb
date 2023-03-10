@@ -101,6 +101,8 @@ namespace _19T1021198.Web.Controllers
         [HttpPost]
         public ActionResult UpdateDetail(OrderDetail data)
         {
+            Product p = CommonDataService.GetProduct(data.ProductID);
+            data.SalePrice = p.Price;
             OrderService.SaveOrderDetail(data.OrderID, data.ProductID, data.Quantity, data.SalePrice);
 
             return RedirectToAction($"Details/{data.OrderID}");
