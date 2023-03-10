@@ -428,5 +428,32 @@ namespace _19T1021198.DataLayers.SQLServer
             return result;
         }
 
+        public IList<StatusOrder> ListOfStatus()
+        {
+            List<StatusOrder> data = new List<StatusOrder>();
+
+            using (var connection = OpenConnection())
+            {
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = @"SELECT * FROM OrderStatus";
+                cmd.CommandType = CommandType.Text;
+
+                using (var dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    while (dbReader.Read())
+                    {
+                        data.Add(new StatusOrder()
+                        {
+                            Status = Convert.ToInt32(dbReader["Status"]),
+                            Description = Convert.ToString(dbReader["Description"]),
+                        });
+                    }
+                    dbReader.Close();
+                }
+
+                connection.Close();
+            }
+            return data;
+        }
     }
 }

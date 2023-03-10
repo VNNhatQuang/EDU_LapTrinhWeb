@@ -235,5 +235,11 @@ namespace _19T1021198.BusinessLayers
         {
             return orderDB.DeleteDetail(orderID, productID);
         }
+
+        public static List<StatusOrder> ListOfStatus()
+        {
+            return orderDB.ListOfStatus().ToList();
+        }
+
     }
 }
